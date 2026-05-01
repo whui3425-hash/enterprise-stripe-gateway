@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: stripe-gateway-postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: stripe_gateway
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d stripe_gateway']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Redis 暂不启用，需要时再解开注释并与应用接入 ioredis 配套使用
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: stripe-gateway-redis
+  #   ports:
+  #     - '6379:6379'
+  #   volumes:
+  #     - redis_data:/data
+
+volumes:
+  postgres_data:
+  # redis_data:
