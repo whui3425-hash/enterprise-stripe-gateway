@@ -8,6 +8,7 @@ import {
   User,
   WebhookEventLog,
 } from './database/entities';
+import { StripeModule } from './stripe/stripe.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import {
         synchronize: true,
       }),
     }),
+    StripeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
